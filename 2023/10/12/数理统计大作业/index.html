@@ -16,12 +16,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="第一次大作业 用Monte Carlo方法进行统计量分布和分位数计算陈佳成   SY2342115  （1）用Monte Carlo方法给出计算方法过程，输出计算结果标准正态分布及参数为1的指数分布两种情况一样，先对样本进行采样，形成一个[try_num,sample_num]的矩阵，其中try_num表示试验的次数，sample_num表示样本容量。接着根据公式计算统计量，最后对try_num个">
+    <meta name="description" content="第一次大作业 用Monte Carlo方法进行统计量分布和分位数计算  陈佳成 SY2342115  \[ \begin{equation} \left\{ \begin{array}{lr} x&#x3D;\dfrac{3\pi}{2}(1+2t)\cos(\dfrac{3\pi}{2}(1+2t)), &amp; \\ y&#x3D;s, &amp; 0 \leq s \leq L,|t| \l">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2023/10/12/%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%A4%A7%E4%BD%9C%E4%B8%9A/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="第一次大作业 用Monte Carlo方法进行统计量分布和分位数计算陈佳成   SY2342115  （1）用Monte Carlo方法给出计算方法过程，输出计算结果标准正态分布及参数为1的指数分布两种情况一样，先对样本进行采样，形成一个[try_num,sample_num]的矩阵，其中try_num表示试验的次数，sample_num表示样本容量。接着根据公式计算统计量，最后对try_num个">
+<meta property="og:description" content="第一次大作业 用Monte Carlo方法进行统计量分布和分位数计算  陈佳成 SY2342115  \[ \begin{equation} \left\{ \begin{array}{lr} x&#x3D;\dfrac{3\pi}{2}(1+2t)\cos(\dfrac{3\pi}{2}(1+2t)), &amp; \\ y&#x3D;s, &amp; 0 \leq s \leq L,|t| \l">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="c:\Users\12816\Desktop\%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%A4%A7%E4%BD%9C%E4%B8%9A.assets\image-20231012152526120.png">
 <meta property="og:image" content="c:\Users\12816\Desktop\%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%A4%A7%E4%BD%9C%E4%B8%9A.assets\image-20231012152548262.png">
@@ -30,7 +30,7 @@
 <meta property="og:image" content="c:\Users\12816\Desktop\%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%A4%A7%E4%BD%9C%E4%B8%9A.assets\image-20231012152638355.png">
 <meta property="og:image" content="c:\Users\12816\Desktop\%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1\%E4%BD%9C%E4%B8%9A\%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%A4%A7%E4%BD%9C%E4%B8%9A.assets\clip_image004.gif">
 <meta property="article:published_time" content="2023-10-12T07:12:56.418Z">
-<meta property="article:modified_time" content="2023-10-14T17:20:52.695Z">
+<meta property="article:modified_time" content="2023-10-15T09:19:53.784Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="c:\Users\12816\Desktop\%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%A4%A7%E4%BD%9C%E4%B8%9A.assets\image-20231012152526120.png">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.2k words
+          5.4k words
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          44 mins
+          46 mins
         
       </span>
     
@@ -279,43 +279,116 @@
             
               <div class="markdown-body">
                 
-                <h2 id="第一次大作业-用Monte-Carlo方法进行统计量分布和分位数计算"><a href="#第一次大作业-用Monte-Carlo方法进行统计量分布和分位数计算" class="headerlink" title="第一次大作业 用Monte Carlo方法进行统计量分布和分位数计算"></a>第一次大作业 用Monte Carlo方法进行统计量分布和分位数计算</h2><p align="right">陈佳成   SY2342115</p>
-
-<h3 id="（1）用Monte-Carlo方法给出计算方法过程，输出计算结果"><a href="#（1）用Monte-Carlo方法给出计算方法过程，输出计算结果" class="headerlink" title="（1）用Monte Carlo方法给出计算方法过程，输出计算结果"></a>（1）用Monte Carlo方法给出计算方法过程，输出计算结果</h3><p>标准正态分布及参数为1的指数分布两种情况一样，先对样本进行采样，形成一个[try_num,sample_num]的矩阵，其中try_num表示试验的次数，sample_num表示样本容量。接着根据公式计算统计量，最后对try_num个统计量计算近似分布$P{T(z_1,z_2,…,z_n)\leq t  }$，画近似分布曲线以及对应的分位数$t_\alpha$</p>
-<p>当样本数&#x3D;100，且重复做10000次时：</p>
+                <h2 id="第一次大作业-用monte-carlo方法进行统计量分布和分位数计算">第一次大作业 用Monte Carlo方法进行统计量分布和分位数计算</h2>
+<p align="right">
+陈佳成 SY2342115
+</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{lr}
+x=\dfrac{3\pi}{2}(1+2t)\cos(\dfrac{3\pi}{2}(1+2t)), &amp; \\
+y=s, &amp; 0 \leq s \leq L,|t| \leq1. \\
+z=\dfrac{3\pi}{2}(1+2t)\sin(\dfrac{3\pi}{2}(1+2t)), &amp;  
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<h3 id="用monte-carlo方法给出计算方法过程输出计算结果">（1）用Monte Carlo方法给出计算方法过程，输出计算结果</h3>
+<p>标准正态分布及参数为1的指数分布两种情况一样，先对样本进行采样，形成一个[try_num,sample_num]的矩阵，其中try_num表示试验的次数，sample_num表示样本容量。接着根据公式计算统计量，最后对try_num个统计量计算近似分布<span class="math inline">\(P\{T(z_1,z_2,...,z_n)\leq t \}\)</span>，画近似分布曲线以及对应的分位数<span class="math inline">\(t_\alpha\)</span></p>
+<p>当样本数=100，且重复做10000次时：</p>
 <p>标准正态分布：</p>
-<img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152526120.png" srcset="/img/loading.gif" lazyload alt="image-20231012152526120" style="zoom: 80%;" />
-
-<img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152548262.png" srcset="/img/loading.gif" lazyload alt="image-20231012152548262" style="zoom:150%;" />
-
-<p>在α&#x3D;0.01 ,0.05,0.1的情况下，满足$P{T(z_1,z_2,…,z_n)\leq t_\alpha  }$的分位数<img src="C:\Users\12816\Desktop\数理统计\作业\数理统计大作业.assets\clip_image004.gif" srcset="/img/loading.gif" lazyload alt="img">分别为：0.2756、0.3093、0.3280</p>
+<p><img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152526120.png" srcset="/img/loading.gif" lazyload alt="image-20231012152526120" style="zoom: 80%;" /></p>
+<p><img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152548262.png" srcset="/img/loading.gif" lazyload alt="image-20231012152548262" style="zoom:150%;" /></p>
+<p>在α=0.01 ,0.05,0.1的情况下，满足<span class="math inline">\(P\{T(z_1,z_2,...,z_n)\leq t_\alpha \}\)</span>的分位数<img src="C:\Users\12816\Desktop\数理统计\作业\数理统计大作业.assets\clip_image004.gif" srcset="/img/loading.gif" lazyload alt="img" />分别为：0.2756、0.3093、0.3280</p>
 <p>参数为1的指数分布：</p>
-<img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152629335.png" srcset="/img/loading.gif" lazyload alt="image-20231012152629335" style="zoom:80%;" />
-
-<img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152638355.png" srcset="/img/loading.gif" lazyload alt="image-20231012152638355" style="zoom:150%;" />
-
-<p>在α&#x3D;0.01 ,0.05,0.1的情况下，满足$P{T(z_1,z_2,…,z_n)\leq t_\alpha  }$的分位数<img src="C:\Users\12816\Desktop\数理统计\作业\数理统计大作业.assets\clip_image004.gif" srcset="/img/loading.gif" lazyload alt="img">分别为：0.8081、0.8532、0.8801</p>
-<h3 id="（2）-讨论Monte-Carlo方法计算结果随着样本容量变化时计算误差的变化，并进行总结。"><a href="#（2）-讨论Monte-Carlo方法计算结果随着样本容量变化时计算误差的变化，并进行总结。" class="headerlink" title="（2） 讨论Monte Carlo方法计算结果随着样本容量变化时计算误差的变化，并进行总结。"></a>（2） 讨论Monte Carlo方法计算结果随着样本容量变化时计算误差的变化，并进行总结。</h3><p>首先讨论统计量的方差情况：</p>
+<p><img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152629335.png" srcset="/img/loading.gif" lazyload alt="image-20231012152629335" style="zoom:80%;" /></p>
+<p><img src="C:\Users\12816\Desktop\数理统计大作业.assets\image-20231012152638355.png" srcset="/img/loading.gif" lazyload alt="image-20231012152638355" style="zoom:150%;" /></p>
+<p>在α=0.01 ,0.05,0.1的情况下，满足<span class="math inline">\(P\{T(z_1,z_2,...,z_n)\leq t_\alpha \}\)</span>的分位数<img src="C:\Users\12816\Desktop\数理统计\作业\数理统计大作业.assets\clip_image004.gif" srcset="/img/loading.gif" lazyload alt="img" />分别为：0.8081、0.8532、0.8801</p>
+<h3 id="讨论monte-carlo方法计算结果随着样本容量变化时计算误差的变化并进行总结">（2） 讨论Monte Carlo方法计算结果随着样本容量变化时计算误差的变化，并进行总结。</h3>
+<p>首先讨论统计量的方差情况：</p>
 <p>标准正态分布：</p>
-<p>$$<br>\begin{array}{|c|c|c|}<br>\hline<br>sample_num &#x2F;   try_num    &amp; 10 &amp; 100 &amp;1000&amp;10000\<br>\hline<br>10 &amp; 0.015363 &amp; 0.018968 &amp;0.018197&amp;0.018676\<br>\hline<br>100&amp;0.001623&amp;0.002800&amp; 0.003273&amp;0.003367\<br>\hline<br>1000&amp; 0.000995&amp;  0.000852&amp; 0.000966&amp;0.000979\<br>\hline<br>10000&amp;0.000093&amp;0.000350&amp;0.000406&amp;0.000378\<br>\hline<br>\end{array}<br>$$</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|c|}
+\hline
+sample\_num /   try\_num    &amp; 10 &amp; 100 &amp;1000&amp;10000\\
+\hline
+10 &amp; 0.015363 &amp; 0.018968 &amp;0.018197&amp;0.018676\\
+\hline
+100&amp;0.001623&amp;0.002800&amp; 0.003273&amp;0.003367\\
+\hline
+1000&amp; 0.000995&amp;  0.000852&amp; 0.000966&amp;0.000979\\
+\hline
+10000&amp;0.000093&amp;0.000350&amp;0.000406&amp;0.000378\\
+\hline
+\end{array}
+\]</span></p>
 <p>参数为1的指数分布：</p>
-<p>$$<br>\begin{array}{|c|c|c|}<br>\hline<br>sample_num &#x2F;   try_num    &amp; 10 &amp; 100 &amp;1000&amp;10000\<br>\hline<br>10 &amp; 0.055294 &amp; 0.049272 &amp;0.050401&amp;0.052149\<br>\hline<br>100&amp;0.018492&amp;0.009244&amp; 0.009688&amp;0.009249\<br>\hline<br>1000&amp; 0.000621&amp; 0.001019 &amp;0.000998 &amp;0.000193\<br>\hline<br>10000&amp;0.000193  &amp; 0.000114 &amp; 0.000101 &amp; 0.000099 \<br>\hline<br>\end{array}<br>$$</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|c|}
+\hline
+sample\_num /   try\_num    &amp; 10 &amp; 100 &amp;1000&amp;10000\\
+\hline
+10 &amp; 0.055294 &amp; 0.049272 &amp;0.050401&amp;0.052149\\
+\hline
+100&amp;0.018492&amp;0.009244&amp; 0.009688&amp;0.009249\\
+\hline
+1000&amp; 0.000621&amp; 0.001019 &amp;0.000998 &amp;0.000193\\
+\hline
+10000&amp;0.000193  &amp; 0.000114 &amp; 0.000101 &amp; 0.000099 \\
+\hline
+\end{array}
+\]</span></p>
 <p>可以看出来随着样本容量的增加，统计量的方差逐渐降低，说明统计量的整体精度在提升。</p>
-<p>对于Monte Carlo方法，其误差$\varepsilon&#x3D;\frac{\lambda_\alpha \sigma}{\sqrt{N}}$，其中均方差$\sigma$未知，需用其估计值$\hat{\sigma&#x3D;\sqrt{\frac{1}{N}\sum_{i&#x3D;1}^{N}X_i^2 -(\frac{1}{N}\sum_{i&#x3D;1}^{N} X_i)^2}}$ 代替，$\lambda_\alpha$与置信度$\alpha$是一一对应，确定置信水平后，根据正态分布表，可确定出$\lambda_\alpha$：<br>$$<br>\begin{array}{|c|c|c|}<br>\hline<br>\alpha &amp;0.01 &amp;0.05&amp;0.1\<br>\hline<br>\lambda_\alpha &amp; 2.58 &amp; 1.96 &amp; 1.64\<br>\hline</p>
-<p>\end{array}<br>$$</p>
-<p>根据该计算公式，可分别求出在不同置信度情况下的误差，以及随着样本容量变化时计算误差的变化，结果如下：<br>$$<br>\begin{array}{|c|c|c|}<br>\hline<br>\alpha &amp;0.01 &amp;0.05&amp;0.1\<br>\hline<br>\varepsilon &amp; 0.00888 &amp; 0.00675 &amp; 0.00565\<br>\hline</p>
-<p>\end{array}<br>$$<br>当设定$\alpha &#x3D; 0.1,try_num&#x3D; 10000$ 时，观测误差随样本容量变化的规律:</p>
-<p>在标准正态分布情况下：<br>$$<br>\begin{array}{|c|c|c|}<br>\hline<br>sample_num &amp;100 &amp;1000&amp;10000 &amp;30000\<br>\hline<br>\varepsilon &amp; 0.00888 &amp; 0.00161 &amp; 0.00063&amp;0.00043 \<br>\hline</p>
-<p>\end{array}<br>$$<br>参数为1的指数分布：<br>$$<br>\begin{array}{|c|c|c|}<br>\hline<br>sample_num &amp;100 &amp;1000&amp;10000 &amp;30000\<br>\hline<br>\varepsilon &amp; 0.01458&amp; 0.00165 &amp; 0.00016 &amp;0.00005\<br>\hline</p>
-<p>\end{array}<br>$$</p>
-<p><strong>结论：结果随着样本容量变大，统计量$T(z_1,z_2,…,z_n)$的方差逐渐降低，且误差也逐渐降低。</strong></p>
+<p>对于Monte Carlo方法，其误差<span class="math inline">\(\varepsilon=\frac{\lambda_\alpha \sigma}{\sqrt{N}}\)</span>，其中均方差<span class="math inline">\(\sigma\)</span>未知，需用其估计值<span class="math inline">\(\hat{\sigma=\sqrt{\frac{1}{N}\sum_{i=1}^{N}X_i^2 -(\frac{1}{N}\sum_{i=1}^{N} X_i)^2}}\)</span> 代替，<span class="math inline">\(\lambda_\alpha\)</span>与置信度<span class="math inline">\(\alpha\)</span>是一一对应，确定置信水平后，根据正态分布表，可确定出<span class="math inline">\(\lambda_\alpha\)</span>：</p>
+$$
+<span class="math display">\[\begin{array}{|c|c|c|}
+\hline
+\alpha &amp;0.01 &amp;0.05&amp;0.1\\
+\hline
+\lambda_\alpha &amp; 2.58 &amp; 1.96 &amp; 1.64\\
+\hline
+
+\end{array}\]</span>
+<p>$$</p>
+<p>根据该计算公式，可分别求出在不同置信度情况下的误差，以及随着样本容量变化时计算误差的变化，结果如下：</p>
+$$
+<span class="math display">\[\begin{array}{|c|c|c|}
+\hline
+\alpha &amp;0.01 &amp;0.05&amp;0.1\\
+\hline
+\varepsilon &amp; 0.00888 &amp; 0.00675 &amp; 0.00565\\
+\hline
+
+\end{array}\]</span>
+<p>$$ 当设定<span class="math inline">\(\alpha = 0.1,try\_num= 10000\)</span> 时，观测误差随样本容量变化的规律:</p>
+在标准正态分布情况下： $$
+<span class="math display">\[\begin{array}{|c|c|c|}
+\hline
+sample\_num &amp;100 &amp;1000&amp;10000 &amp;30000\\
+\hline
+\varepsilon &amp; 0.00888 &amp; 0.00161 &amp; 0.00063&amp;0.00043 \\
+\hline
+
+\end{array}\]</span>
+<span class="math display">\[
+参数为1的指数分布：
+\]</span>
+<span class="math display">\[\begin{array}{|c|c|c|}
+\hline
+sample\_num &amp;100 &amp;1000&amp;10000 &amp;30000\\
+\hline
+\varepsilon &amp; 0.01458&amp; 0.00165 &amp; 0.00016 &amp;0.00005\\
+\hline
+
+\end{array}\]</span>
+<p>$$</p>
+<p><strong>结论：结果随着样本容量变大，统计量<span class="math inline">\(T(z_1,z_2,...,z_n)\)</span>的方差逐渐降低，且误差也逐渐降低。</strong></p>
 <p>代码附录：</p>
 <p>（1）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Monte_Carlo</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,sample_num,try_num</span>):<br>        self.sample_num=sample_num<br>        self.try_num=try_num<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">standard_normal_distribution</span>(<span class="hljs-params">self,t_alpha</span>):<br>        z=np.random.normal(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,size=(self.try_num,self.sample_num))<br>        z_mean=np.mean(z,axis=<span class="hljs-number">1</span>).reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)     <span class="hljs-comment">##[[z_mean1],[z_mean2],[z_mean3]...]</span><br>        z_min=np.<span class="hljs-built_in">min</span>(z,axis=<span class="hljs-number">1</span>).reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)       <span class="hljs-comment">##[[z_min1],[z_min2],[z_min3]...]</span><br>        T=self.calculate(z,z_mean,z_min)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;var is :&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(np.var(T)))<br>        <span class="hljs-comment"># self.draw(T) </span><br>        self.calculate_quantile(T,t_alpha)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">exponential_distribution</span>(<span class="hljs-params">self,parameter,t_alpha</span>):<br>        z=np.random.exponential(parameter,size=(self.try_num,self.sample_num))<br>        z_mean=np.mean(z,axis=<span class="hljs-number">1</span>).reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)         <br>        z_min=np.<span class="hljs-built_in">min</span>(z,axis=<span class="hljs-number">1</span>).reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)<br>        T=self.calculate(z,z_mean,z_min)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;var is :&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(np.var(T)))<br>        <span class="hljs-comment"># self.draw(T)                               ##try_num*[z_mean,z_mean,z_mean]</span><br>        self.calculate_quantile(T,t_alpha)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate</span>(<span class="hljs-params">self,z,z_mean,z_min</span>):     <br>        <span class="hljs-keyword">try</span>:<br>            T=np.power(np.<span class="hljs-built_in">sum</span>(np.power(z-z_mean,<span class="hljs-number">2</span>),<span class="hljs-number">1</span>)/self.sample_num,<span class="hljs-number">0.5</span>).reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) /(z_mean-z_min)<span class="hljs-comment">###[[T1],[T2],[T3]...]</span><br>        <span class="hljs-keyword">except</span> ZeroDivisionError:<br>            T = <span class="hljs-number">0</span> <br>        T=T.reshape(<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>)                            <span class="hljs-comment">##[T1,T2,T3]</span><br>        <span class="hljs-keyword">return</span> T<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self,T</span>):<br>        count, bins_count = np.histogram(T,bins=<span class="hljs-number">100</span>)<br>        pdf = count / <span class="hljs-built_in">sum</span>(count)<br>        cdf = np.cumsum(pdf)<br>        plt.xlabel(<span class="hljs-string">&quot;t&quot;</span>)<br>        plt.ylabel(<span class="hljs-string">&quot;P&quot;</span>, rotation=<span class="hljs-string">&quot;horizontal&quot;</span>)<br>        plt.plot(bins_count[<span class="hljs-number">1</span>:], cdf, label=<span class="hljs-string">&quot;CDF&quot;</span>)<br>        plt.show()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_quantile</span>(<span class="hljs-params">self,T,t_alpha</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> t_alpha:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;alpha=&#123;&#125;,t_alpha=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(i,np.percentile(T,i*<span class="hljs-number">100</span>)))<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">analyse</span>(<span class="hljs-params">combined_list,parameter,t_alpha</span>):<br><br>    <span class="hljs-keyword">for</span> [sample_num,try_num] <span class="hljs-keyword">in</span> combined_list:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sample_num=&#123;&#125;,try_num=&#123;&#125;:&quot;</span>.<span class="hljs-built_in">format</span>(sample_num,try_num))<br>        monte_Carlo=Monte_Carlo(sample_num,try_num)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;standard_normal_distribution:&quot;</span>)<br>        monte_Carlo.standard_normal_distribution(t_alpha) <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;exponential_distribution:&quot;</span>)<br>        monte_Carlo.exponential_distribution(parameter,t_alpha)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    sample_num=<span class="hljs-number">100</span><br>    try_num=<span class="hljs-number">10000</span><br>    parameter=<span class="hljs-number">1</span><br>    t_alpha=[<span class="hljs-number">0</span>,<span class="hljs-number">0.01</span>,<span class="hljs-number">0.05</span>,<span class="hljs-number">0.1</span>,<span class="hljs-number">1</span>]<br>    monte_Carlo=Monte_Carlo(sample_num,try_num)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;standard_normal_distribution:&quot;</span>)<br>    monte_Carlo.standard_normal_distribution(t_alpha)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;exponential_distribution:&quot;</span>)<br>    monte_Carlo.exponential_distribution(parameter,t_alpha)<br>    <br>    sample_num=[<span class="hljs-number">10</span>,<span class="hljs-number">100</span>,<span class="hljs-number">1000</span>,<span class="hljs-number">10000</span>]<br>    try_num=[<span class="hljs-number">10</span>,<span class="hljs-number">100</span>,<span class="hljs-number">1000</span>,<span class="hljs-number">10000</span>]<br>    parameter=<span class="hljs-number">1</span><br>    t_alpha=[<span class="hljs-number">0.01</span>,<span class="hljs-number">0.05</span>,<span class="hljs-number">0.1</span>,<span class="hljs-number">1</span>]<br>    combined_list = [[x,y] <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> sample_num <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> try_num]<br>    analyse(combined_list,parameter,t_alpha)<br>    <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
-
-<p>​	（2)</p>
+<p>​ （2)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">squ_T=np.power(T,<span class="hljs-number">2</span>)<br>        sigma_hat=  np.mean(squ_T)- np.power(np.mean(T),<span class="hljs-number">2</span>)<br>        lambda_alpha=[<span class="hljs-number">2.58</span>,<span class="hljs-number">1.96</span>,<span class="hljs-number">1.64</span>]<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>            sigma=lambda_alpha[i]*sigma_hat/(<span class="hljs-built_in">len</span>(T)**<span class="hljs-number">0.5</span>)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;alpha=&#123;&#125;   sigma=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(t_alpha[i],sigma))<br></code></pre></td></tr></table></figure>
-
 
                 
               </div>
@@ -382,12 +455,6 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/10/10/%E7%AE%97%E6%B3%95/" title="123">
-                        <span class="hidden-mobile">123</span>
-                        <span class="visible-mobile">Next</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
                   </article>
                 </div>
               
@@ -441,6 +508,27 @@
 
   
 
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
 
 
 
@@ -633,6 +721,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
