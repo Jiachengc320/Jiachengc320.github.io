@@ -5,8 +5,8 @@
   
   <entry>
     <title>大模型无监督训练</title>
-    <link href="/Jiachengc320/Jiachengc320.github.io.git/2024/12/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%97%A0%E7%9B%91%E7%9D%A3%E8%AE%AD%E7%BB%83/"/>
-    <url>/Jiachengc320/Jiachengc320.github.io.git/2024/12/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%97%A0%E7%9B%91%E7%9D%A3%E8%AE%AD%E7%BB%83/</url>
+    <link href="/2024/12/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%97%A0%E7%9B%91%E7%9D%A3%E8%AE%AD%E7%BB%83/"/>
+    <url>/2024/12/03/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%97%A0%E7%9B%91%E7%9D%A3%E8%AE%AD%E7%BB%83/</url>
     
     <content type="html"><![CDATA[<p>无监督训练是机器学习的一种方式，它不依赖于带标签的数据来训练模型，而是通过从未标注的数据中发现潜在的结构或模式。对于语言模型，无监督学习通常意味着让模型通过大量的文本数据自我学习，从而能够理解语言的结构、上下文、语法规则。</p><h2 id="无监督训练方法">无监督训练方法</h2><ul><li>自编码器：通过将输入映射到潜在空间，再从潜在空间恢复回输入来训练，学习数据的低维表示</li><li>聚类：聚类算法视图将数据集分城若干类别或簇，模型通过这些簇来发现数据中的结构</li><li>生成模型：生成式模型视图学习数据的分布，并从中生成新的数据</li></ul><h2 id="无监督训练在llm中的应用">无监督训练在LLM中的应用</h2><p>LLM通常采用的无监督训练方式是通过<strong>自回归训练</strong>（autoregressive training）或者<strong>掩码语言建模</strong>（masked language modeling）来训练。</p><ul><li>自回归训练语言建模：模型的目标是预测一个句子中的每个单词的下一个单词，对于大量未标注的文本数据，模型通过这种方式逐步学习语言的结构和上下文信息</li><li>掩码语言建模：通常用于Bert类模型，句子随机掩盖掉一些词，模型的任务是根据上下文信息预测被掩盖的词。例如，在句子“The cat sat on the [MASK]”中，模型需要根据上下文预测出被掩盖的词“mat”</li></ul><p>2）从未标注的文本中学习表示</p><p>无监督训练的另一个关键应用是让模型通过海量的文本数据学习到词语的表示，如词嵌入是通过无监督方法生成的，它能够将单词映射到高维空间，使得语义相近的词在该空间中更为接近。</p><p>3）迁移学习</p><p>无监督训练往往是LLM的预训练阶段，而在实际应用时，模型可能会根据特定任务进行微调。</p><p>无监督训练在大规模语言模型（LLM）中的应用是至关重要的，它帮助模型从大量未标注的文本中学习语言的结构、上下文以及潜在的语义关系。通过无监督学习，LLM能够掌握丰富的语言知识，并为下游任务提供强大的支持。</p>]]></content>
     
@@ -18,8 +18,8 @@
   
   <entry>
     <title>大模型微调方式</title>
-    <link href="/Jiachengc320/Jiachengc320.github.io.git/2024/12/02/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E6%96%B9%E5%BC%8F/"/>
-    <url>/Jiachengc320/Jiachengc320.github.io.git/2024/12/02/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E6%96%B9%E5%BC%8F/</url>
+    <link href="/2024/12/02/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E6%96%B9%E5%BC%8F/"/>
+    <url>/2024/12/02/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E6%96%B9%E5%BC%8F/</url>
     
     <content type="html"><![CDATA[<h1 id="全量微调-full-fine-tuning">全量微调 Full Fine-tuning</h1><p>原理：在预训练的大型模型基础上，对模型的所有层和参数进行调整，使其适应特定任务。在这个过程中，模型会根据特定任务的数据重新学习和更新所有的权重参数，以达到更好地完成该任务的目的。</p><p>优点：可以充分利用预训练模型的通用特征，较好地适应特定任务。</p><p>缺点：计算成本高</p><h1 id="基于适配器adapter的微调">基于适配器（Adapter）的微调：</h1><p>原理：在预训练模型的每一层或某些层中添加适配器模块，微调时冻结预训练模型主体。由适配器模块学习特定下游任务的知识。</p><p>适配器由两个前馈子层组成，第一个将模型的输出作为输入，投影到较小维度，第二个将其还原到原始输入维度作为输出</p><p>优点：只需要训练少量的特定于任务的参数，降低了训练的计算成本和存储需求，预训练模型的主体被冻结，保留预训练模型的大部分知识，能快速适应新的任务。</p><p>缺点：增加了模型的复杂性，可能影响模型的推理速度，且适配器模块的设计要求较高</p><h1 id="基于低秩适应lora的微调">基于低秩适应（LORA）的微调</h1><p>Low-Rank Adaptation of Large Language Models</p><p>原理：冻结预训练模型的矩阵参数，并引入额外的低秩矩阵代替模型权重的变化</p><figure><img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20241122143906738.png" alt="image-20241122143906738" /><figcaption aria-hidden="true">image-20241122143906738</figcaption></figure><p><span class="math display">\[h=W_0 x+\Delta Wx=W_0 x+BAx\]</span></p><p>学习的是BA矩阵，来量化权重的差异<span class="math inline">\(\Delta W\)</span></p><h1 id="p-tuning">P-Tuning</h1><p>为了解决人工设计的Prompt问题： GPT Understands,TOO</p><ul><li>大模型的Prompt构造方式严重影响下游任务的效果，如GPT3采用人工构造的模板做上下文学习，模板的变化较敏感，加减词或变动位置会造成较大变化</li><li>自动化搜索模板工作成本较高，离散化token搜索出的结果可能并不最优，性能不稳定</li></ul><p>P-Tuning将提示Prompt转化为可学习的Embedding层，并使用MLP+LSTM的方式对Prompt Embedding进行一层处理。</p><ul><li>P-Tuning 设计了一种连续可微的virtual token，将Prompt转换为可学习的Embedding层，使用MLP+LSTM的方式对Prompt Embedding进行一层处理。</li><li>经过预训练的LM的词嵌入变得高度离散，若随机初始化virtual token，容易优化到局部最优，作者通过实验发现用一个prompt encoder编码收敛更快，效果更好。"virtual token"指的是一种用于微调语言模型的特殊标记。</li></ul><figure><img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20241122155804651.png" alt="image-20241122155804651" /><figcaption aria-hidden="true">image-20241122155804651</figcaption></figure>]]></content>
     
@@ -31,8 +31,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="/Jiachengc320/Jiachengc320.github.io.git/2023/10/10/hello-world/"/>
-    <url>/Jiachengc320/Jiachengc320.github.io.git/2023/10/10/hello-world/</url>
+    <link href="/2023/10/10/hello-world/"/>
+    <url>/2023/10/10/hello-world/</url>
     
     <content type="html"><![CDATA[<pre class="mermaid">    graph TD;      A-->B;      A-->C;      B-->D;      C-->D;</pre><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="quick-start">Quick Start</h2><h3 id="create-a-new-post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
