@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jiacheng Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Bert Google 论文Pre-training of Deep Bidirectional Transformers for Language Understanding 整体是一个自编码语言模型（Autoencoder LM），设计了两个任务来预训练该模型  采用MaskLM的方式训练语言模型：输入一句话的时候，随机地选一些要预测的词，然后用一个特殊的符号[MASK]来代替它们，之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多模态笔记">
+<meta property="og:url" content="https://jiachengc320.github.io/2024/12/24/%E5%A4%9A%E6%A8%A1%E6%80%81%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Bert Google 论文Pre-training of Deep Bidirectional Transformers for Language Understanding 整体是一个自编码语言模型（Autoencoder LM），设计了两个任务来预训练该模型  采用MaskLM的方式训练语言模型：输入一句话的时候，随机地选一些要预测的词，然后用一个特殊的符号[MASK]来代替它们，之">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816114457355.png">
+<meta property="og:image" content="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816115919428.png">
+<meta property="og:image" content="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816133429600.png">
+<meta property="og:image" content="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816165952779.png">
+<meta property="og:image" content="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816170306638.png">
+<meta property="og:image" content="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20241224163955952.png">
+<meta property="article:published_time" content="2024-12-24T09:38:30.000Z">
+<meta property="article:modified_time" content="2024-12-24T09:40:05.165Z">
+<meta property="article:author" content="Jiacheng Chen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816114457355.png">
+  
+  
+  
+  <title>多模态笔记 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jiachengc320.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"g5HIusnoZkA0lmxRdHOC27Y1-MdYXbMMI","app_key":"yjfiVO4J8EuiOJCD2DwibypK","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="多模态笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-24 17:38" pubdate>
+          December 24, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">多模态笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="bert">Bert</h1>
+<p>Google 论文Pre-training of Deep Bidirectional Transformers for Language Understanding</p>
+<p>整体是一个自编码语言模型（Autoencoder LM），设计了两个任务来预训练该模型</p>
+<ul>
+<li>采用MaskLM的方式训练语言模型：输入一句话的时候，随机地选一些要预测的词，然后用一个特殊的符号[MASK]来代替它们，之后让模型根据所给的标签去学习这些地方该填的词。</li>
+<li>在双向语言模型的基础上额外增加了一个句子级别的连续性预测任务，即预测输入BERT的两端文本是否为连续的文本，引入这个任务可以更好地让模型学到连续的文本片段之间的关系。</li>
+</ul>
+<p>BERT 相较于原来的 RNN、LSTM 可以做到并发执行，同时提取词在句子中的关系特征，并且能在多个不同层次提取关系特征，进而更全面反映句子语义。相较于 word2vec，其又能根据句子上下文获取词义，从而避免歧义出现。同时缺点也是显而易见的，模型参数太多，而且模型太大，少量数据训练时，容易过拟合。</p>
+<p>BERT 只使用了 Transformer 的 Encoder 模块，原论文中，作者分别用 12 层和 24 层 Transformer Encoder 组装了两套 BERT 模型，分别是:</p>
+<ul>
+<li><span class="math inline">\(BERT_{BASE}:L=12,H=768,A=12,TotalParameters=10M\)</span></li>
+<li><span class="math inline">\(BERT_{LARGE}:L=24,H=1024,A=16,TotalParameters=340M\)</span></li>
+</ul>
+<p>L：Transformer Encoder块的数量，H：隐藏层维度，A：自注意力个头数，下例中Transformer Encoder端 [^Feedforward Layer] 层的维度设置为4H</p>
+<p><strong>与 Transformer 本身的 Encoder 端相比，BERT 的 Transformer Encoder 端输入的向量表示，多了 Segment Embeddings</strong></p>
+<p>[^Feedforward Layer]: （前馈层）是一种最基本的网络层，它在处理数据时只向前传递（从输入到输出）。这种层通常用于构建更复杂的网络结构，如卷积神经网络（CNN）或循环神经网络（RNN）中。</p>
+<blockquote>
+<p>https://blog.csdn.net/weixin_44799217/article/details/115374101</p>
+</blockquote>
+<h1 id="blip-模型-2022">Blip 模型 2022</h1>
+<figure>
+<img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816114457355.png" srcset="/img/loading.gif" lazyload alt="image-20240816114457355" /><figcaption aria-hidden="true">image-20240816114457355</figcaption>
+</figure>
+<p>NLP,CV 通过transformer无缝兼容</p>
+<p>Attention: QKV</p>
+<p>最终目的：文生图</p>
+<p><strong>Blip2.0 2023.3 文生图</strong></p>
+<h1 id="clip模型">Clip模型</h1>
+<p>经典分类模型（如resnet）的问题：</p>
+<ol type="1">
+<li>类别固定</li>
+<li>当前的模型只能胜任一个任务，迁移到新任务上非常困难</li>
+<li>类别互斥</li>
+<li>当前的cv数据集标注劳动密集，成本高昂。</li>
+<li>当前模型泛化能力较差</li>
+</ol>
+<p>双塔结构</p>
+<figure>
+<img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816115919428.png" srcset="/img/loading.gif" lazyload alt="image-20240816115919428" /><figcaption aria-hidden="true">image-20240816115919428</figcaption>
+</figure>
+<p>Text Encoder: bert/gpt等</p>
+<p>Image Encoder: resnet/vgg/vit</p>
+<p>正负样本在batchsize里内部构造出来的，Batchsize是随机得到，训练样本也具有随机性</p>
+<p>Batchsize=N, Batchsize选多大合适？</p>
+<ol type="1">
+<li>如果batchsize过小，负样本太少，训练效果不佳</li>
+<li>batchsize不能太大，在类别数较小的时候，负样本不准</li>
+</ol>
+<p>模型主要是训练Text Encoder 和Image Encoder，其将文本信息和图像信息投射在同一个空间里</p>
+<p>0样本分类，离线计算</p>
+<figure>
+<img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816133429600.png" srcset="/img/loading.gif" lazyload alt="image-20240816133429600" /><figcaption aria-hidden="true">image-20240816133429600</figcaption>
+</figure>
+<p>对于Text-Encoder,作者统一采用GPT-2里的Transformer结构，对于base size model，使用63M-parameter 12-layer 512-width model with 8 attention heads; model width随着image encoder 的size增加而增加。输入句子的最大长度为76</p>
+<p>Clip能够zero shot识别，而且效果不错的原因在于：</p>
+<ol type="1">
+<li>训练集够大，zero shot任务的图像分布在训练集中有类似的，zero shot任务的concept在训练集中有相近的</li>
+<li>将分类问题转换为检索问题</li>
+</ol>
+<p>训练数据通过50W条query,搜索得到4亿个图像文本对</p>
+<h2 id="limitation">Limitation</h2>
+<ol type="1">
+<li>CLIP的zero-shot性能虽然总体上比supervised baseline ResNet-50好，但其实很多任务上比不过SOTA methods，因此CLIP的transfer learning有待挖掘</li>
+<li>CLIP在几种task上zero-shot性能不好：fine-grained分类（花的分类，车的分类之类的）、抽象的任务（如计算图中object的个数）以及预训练时没见过的task（如分出相邻车辆的距离）</li>
+<li>Zero-shot CLIP在真正意义上的out-of-distribution data上性能不好，比如OCR中</li>
+<li>生成新的概念（如：词），这是CLIP功能上的缺陷，CLIP终究不是生成模型</li>
+<li>CLIP的训练数据是从网上采集的，这些image-text pairs没有做data-clear 和de-bias，这可能会使得模型有一些social biases</li>
+<li>很多视觉任务很难用text来表达，如何用更高效的few-shot learning方法优化CLIP也很重要（通过大模型语言LLAMA可能可以解决）</li>
+</ol>
+<h1 id="sam模型">SAM模型</h1>
+<p>目标分割：像素级的对前景与背景进行分类，将背景剔除</p>
+<p><a href="segment-anything.com">Demo</a></p>
+<p>根据demo可以发现，我们可以发现，通过在图像中指定要分割的内容提示，SAM可以实现各种分割任务，且无需额外的训练、做到零样本泛化，即SAM学会了辨别物体、具备图像理解力、对不熟悉的图像和物体能进行零样本概括，这一通用特性使得SAM模型在有关领域的推广应用成为可能。</p>
+<p>牛逼之处：0样本学习 prompt</p>
+<p>SAM模型设计的出发点</p>
+<blockquote>
+<p>零样本学习：</p>
+<ol type="1">
+<li><p>什么任务可以实现零样本泛化？</p>
+<p>文章认为，手续爱你需要定义一个可提示的分割任务，该任务足够通用，以提供强大的预训练目标并支持广泛的下游应用程序</p></li>
+<li><p>对应的模型架构是怎样的？</p>
+<p>文章指出，需要一个支持灵活提示的模型，并且可以在提示时实时输出分割掩码，以供交互使用</p></li>
+<li><p>哪些数据可以为这项任务和模型提供支持？</p>
+<p>文章提出，训练模型需要多样化、大规模的数据源，为解决这一问题，可以构建一个"数据引擎"，即在使用高效模型来协助数据收集和使用新收集的数据来改进模型之间进行迭代</p></li>
+</ol>
+</blockquote>
+<figure>
+<img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816165952779.png" srcset="/img/loading.gif" lazyload alt="image-20240816165952779" /><figcaption aria-hidden="true">image-20240816165952779</figcaption>
+</figure>
+<figure>
+<img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20240816170306638.png" srcset="/img/loading.gif" lazyload alt="image-20240816170306638" /><figcaption aria-hidden="true">image-20240816170306638</figcaption>
+</figure>
+<p>prompt encoder：prompt总共有point,box,mask,text四种，会将其分为三类</p>
+<ul>
+<li>point和box可以作为一类使用position encodings</li>
+<li>text可以使用CLIP作为encoder</li>
+<li>mask是一种密集型prompt，可以使用卷积作为encoder</li>
+</ul>
+<p>类别极度不均衡场景：</p>
+<p>focal loss <span class="math display">\[
+L_{fl} = \begin{cases} 
+-(1 - \hat{p})^{\gamma} \log(\hat{p}) &amp; \text{if } y = 1 \\
+-\hat{p}^{\gamma} \log(1 - \hat{p}) &amp; \text{if } y = 0 
+\end{cases}
+\]</span> <span class="math inline">\(\gamma =0\)</span> 传统分类，<span class="math inline">\(\gamma\)</span> 越大,越难分。</p>
+<p>通过系数来控制好分和难分的比重</p>
+<h1 id="glip模型-2023.3-目标检测">GLIP模型 2023.3 目标检测</h1>
+<p>Grounded Language-Image Pre-training(GLIP)</p>
+<p><img src="https://jc2001-1307981922.cos.ap-beijing.myqcloud.com/image-20241224163955952.png" srcset="/img/loading.gif" lazyload /></p>
+<p>从模型输入层面来说，GLIP 创造性地将目标检测任务转换为短语定位任务</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>多模态笔记</div>
+      <div>https://jiachengc320.github.io/2024/12/24/多模态笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Jiacheng Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>December 24, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/12/20/sora%E8%AF%A6%E8%A7%A3/" title="sora详解">
+                        <span class="hidden-mobile">sora详解</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
